@@ -1,10 +1,15 @@
-FROM node
+FROM node:18
 
-ENV MONGO_DB_USERNAME=admin \
-    MONGO_DB_PWD=qwerty
+WORKDIR /app
 
-RUN mkdir -p testapp
+COPY package*.json ./
+RUN npm install
 
-COPY . /docker-testapp-main 
+COPY . .
 
-CMD ["node", "/docker-testapp-main/server.js"]
+ENV MONGO_DB_USERNAME=admin
+ENV MONGO_DB_PWD=qwerty
+
+EXPOSE 5050
+
+CMD ["node", "server.js"]
