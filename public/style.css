@@ -2,8 +2,8 @@ body {
     text-align: center;
 }
 #formBtn {
-    color: white;
-    background-color:coral;
+    color: rgb(202, 202, 202);
+    background-color:rgb(255, 142, 142);
     border: none;
     border-radius: 2px;
     padding: 0.25rem 1rem;
