@@ -1,0 +1,29 @@
+name: CI/CD Deploy to Remote
+
+on:
+  push:
+    branches:
+      - main  # or change to your desired branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.8.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy over SSH
+      run: |
+        ssh -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} << 'EOF'
+          cd /home/hassan/your-project-directory
+          git pull origin main
+          docker compose down
+          docker compose build
+          docker compose up -d --remove-orphans
+        EOF
